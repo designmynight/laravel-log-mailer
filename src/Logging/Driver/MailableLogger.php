@@ -2,12 +2,12 @@
 
 namespace DesignMyNight\Laravel\Logging\Driver;
 
-use DesignMyNight\Laravel\Logging\Mail\Log as MailableLog;
-use DesignMyNight\Laravel\Logging\Monolog\Handlers\MailableHandler;
-use Illuminate\Contracts\Mail\Mailable;
+use Monolog\Logger;
 use Monolog\Formatter\HtmlFormatter;
 use Monolog\Formatter\LineFormatter;
-use Monolog\Logger;
+use Illuminate\Contracts\Mail\Mailable;
+use DesignMyNight\Laravel\Logging\Mail\Log as MailableLog;
+use DesignMyNight\Laravel\Logging\Monolog\Handlers\MailableHandler;
 
 class MailableLogger
 {

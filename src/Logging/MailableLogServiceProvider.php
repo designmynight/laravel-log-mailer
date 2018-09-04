@@ -2,12 +2,12 @@
 
 namespace DesignMyNight\Laravel\Logging;
 
-use DesignMyNight\Laravel\Logging\Driver\MailableLogger;
-use Illuminate\Contracts\Container\Container;
-use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Log\LogManager;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Contracts\Container\Container;
 use Laravel\Lumen\Application as LumenApplication;
+use DesignMyNight\Laravel\Logging\Driver\MailableLogger;
+use Illuminate\Foundation\Application as LaravelApplication;
 
 class MailableLogServiceProvider extends ServiceProvider
 {

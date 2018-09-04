@@ -3,8 +3,8 @@
 namespace DesignMyNight\Laravel\Logging\Monolog\Handlers;
 
 use Illuminate\Mail\Mailable;
-use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\MailHandler;
+use Monolog\Formatter\LineFormatter;
 
 class MailableHandler extends MailHandler
 {
