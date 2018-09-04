@@ -1,6 +1,10 @@
 Laravel Mail Logger
 ===============
 
+[![Latest Stable Version](http://img.shields.io/github/release/designmynight/laravel-log-mailer.svg)](https://packagist.org/packages/designmynight/laravel-log-mailer) [![Total Downloads](http://img.shields.io/packagist/dm/designmynight/laravel-log-mailer.svg)](https://packagist.org/packages/designmynight/laravel-log-mailer)
+[![StyleCI](https://github.styleci.io/repos/147424037/shield?branch=master)](https://github.styleci.io/repos/147424037)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 A service provider to add support for logging via email using Laravels built-in mail provider
 
 Table of contents
