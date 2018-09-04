@@ -1,0 +1,35 @@
+{
+    "name": "designmynight/laravel-log-mailer",
+    "description": "A package to support logging via email in Laravel",
+    "homepage": "https://github.com/designmynight/laravel-log-mailer",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "laravel-logging",
+        "laravel-log-mailer",
+        "monolog",
+        "designmynight"
+    ],
+    "require": {
+        "illuminate/log": "^5.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "DesignMyNight\\Laravel\\": "src"
+        }
+    },
+    "authors": [
+        {
+            "name": "Steve Porter",
+            "email": "steve@designmynight.com",
+            "role": "Developer"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "DesignMyNight\\Laravel\\Logging\\MailableLogServiceProvider"
+            ]
+        }
+    }
+}
