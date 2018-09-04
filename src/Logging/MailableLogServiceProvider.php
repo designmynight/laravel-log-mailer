@@ -33,7 +33,7 @@ class MailableLogServiceProvider extends ServiceProvider
     {
         if ($app instanceof LaravelApplication && $app->runningInConsole()) {
             $this->publishes([
-                __DIR__.'/../../config/mailablelog.php' => config_path('mailablelog.php')
+                __DIR__.'/../../config/mailablelog.php' => config_path('mailablelog.php'),
             ], 'mailablelog-config');
         } elseif ($app instanceof LumenApplication) {
             $app->configure('mailablelog');
@@ -41,7 +41,7 @@ class MailableLogServiceProvider extends ServiceProvider
     }
 
     /**
-     * Publish the views
+     * Publish the views.
      *
      * @param \Illuminate\Contracts\Container\Container $app
      *
@@ -69,7 +69,7 @@ class MailableLogServiceProvider extends ServiceProvider
             $this->loadViewsFrom(base_path('designmynight/resources/views'), 'mailablelog');
 
             $this->app['log']->extend('mail', function (Container $app, array $config) {
-                $logger = new MailableLogger;
+                $logger = new MailableLogger();
 
                 return $logger($config);
             });

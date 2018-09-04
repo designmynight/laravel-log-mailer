@@ -14,7 +14,8 @@ class MailableLogger
     /**
      * Create a custom Monolog instance.
      *
-     * @param  array  $config
+     * @param array $config
+     *
      * @return \Monolog\Logger
      */
     public function __invoke(array $config)
@@ -26,13 +27,13 @@ class MailableLogger
             $this->subjectFormatter()
         );
 
-        $mailHandler->setFormatter(new HtmlFormatter);
+        $mailHandler->setFormatter(new HtmlFormatter());
 
         return new Logger('mailable', [$mailHandler]);
     }
 
     /**
-     * Get the default from address
+     * Get the default from address.
      *
      * @return string
      */
@@ -42,7 +43,7 @@ class MailableLogger
     }
 
     /**
-     * Get the default from name
+     * Get the default from name.
      *
      * @return string
      */
@@ -52,7 +53,7 @@ class MailableLogger
     }
 
     /**
-     * Get the subject formatter
+     * Get the subject formatter.
      *
      * @return LineFormatter
      */
@@ -64,14 +65,14 @@ class MailableLogger
     }
 
     /**
-     * Create the mailable log
+     * Create the mailable log.
      *
      * @return Mailable
      */
     protected function buildMailable(): Mailable
     {
         $mailable = $this->config('mailable') ?? MailableLog::class;
-        $mailable = new $mailable;
+        $mailable = new $mailable();
 
         if (empty($recipients = $this->config('to'))) {
             throw new InvalidArgumentException('To addresses required');
@@ -93,9 +94,10 @@ class MailableLogger
     }
 
     /**
-     * Get the value from the passed in config
+     * Get the value from the passed in config.
      *
      * @param string $field
+     *
      * @return mixed
      */
     private function config(string $field)

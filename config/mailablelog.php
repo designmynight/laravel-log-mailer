@@ -1,4 +1,5 @@
 <?php
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -9,7 +10,7 @@ return [
     | the monolog format for more information
     |
     */
-    'subject_format' => env('MAILABLE_LOG_SUBJECT_FORMAT', "[%datetime%] %level_name%: %message%"),
+    'subject_format' => env('MAILABLE_LOG_SUBJECT_FORMAT', '[%datetime%] %level_name%: %message%'),
 
     /*
     |--------------------------------------------------------------------------
@@ -22,6 +23,6 @@ return [
     */
     'from' => [
         'address' => env('MAILABLE_LOG_FROM_ADDRESS'),
-        'name' => env('MAILABLE_LOG_FROM_NAME')
-    ]
+        'name'    => env('MAILABLE_LOG_FROM_NAME'),
+    ],
 ];
