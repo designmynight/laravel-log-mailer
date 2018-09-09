@@ -15,7 +15,7 @@ class MailableHandler extends MailHandler
      * @param Mailable      $mailable
      * @param LineFormatter $subjectFormatter
      * @param int     $level  The minimum logging level at which this handler will be triggered
-     * @param Boolean $bubble Whether the messages that are handled can bubble up the stack or not
+     * @param bool $bubble Whether the messages that are handled can bubble up the stack or not
      *
      * @return void
      */
