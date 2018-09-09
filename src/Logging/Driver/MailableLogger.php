@@ -24,7 +24,9 @@ class MailableLogger
 
         $mailHandler = new MailableHandler(
             $this->buildMailable(),
-            $this->subjectFormatter()
+            $this->subjectFormatter(),
+            $this->config('level'),
+            $this->config('bubble')
         );
 
         $mailHandler->setFormatter(new HtmlFormatter());
