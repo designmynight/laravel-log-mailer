@@ -7,6 +7,9 @@ Laravel Mail Logger
 
 A service provider to add support for logging via email using Laravels built-in mail provider
 
+![image](https://user-images.githubusercontent.com/12199424/45576336-a93c1300-b86e-11e8-9575-d1e4c5ed5dec.png)
+
+
 Table of contents
 -----------------
 * [Installation](#installation)
@@ -74,7 +77,7 @@ To ensure all unhandled exceptions are mailed, set up a mail logging channel and
             'name' => 'Errors'
         ],
         // Optionally overwrite the mailable template
-        'mailable' => NewLogMailable::class
+        // 'mailable' => NewLogMailable::class
     ],
 ],
 ```
