@@ -20,7 +20,10 @@ class MailableLogger
      */
     public function __invoke(array $config)
     {
-        $this->config = $config;
+         $this->config = array_merge([
+            'level' => Logger::DEBUG,
+            'bubble' => true
+        ], $config );
 
         $mailHandler = new MailableHandler(
             $this->buildMailable(),
