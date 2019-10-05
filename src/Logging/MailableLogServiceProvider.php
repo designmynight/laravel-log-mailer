@@ -66,7 +66,6 @@ class MailableLogServiceProvider extends ServiceProvider
     public function register()
     {
         if ($this->app['log'] instanceof LogManager) {
-            $this->loadViewsFrom(base_path('designmynight/resources/views'), 'mailablelog');
 
             $this->app['log']->extend('mail', function (Container $app, array $config) {
                 $logger = new MailableLogger();
