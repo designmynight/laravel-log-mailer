@@ -1,10 +1,11 @@
 <?php
 
-namespace DesignMyNight\Laravel\Logging\Mail;
+namespace Shaffe\MailLogChannel\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\HtmlString;
 
 class Log extends Mailable
 {
@@ -17,6 +18,6 @@ class Log extends Mailable
      */
     public function build()
     {
-        return $this->markdown('mailablelog::log');
+        return $this->markdown('mail::message', ['slot' => new HtmlString($this->viewData['content'] ?? '')]);
     }
 }
