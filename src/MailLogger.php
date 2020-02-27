@@ -52,21 +52,17 @@ class MailLogger
      */
     protected function buildMailable(): Mailable
     {
-        $mailable = $this->config('mailable') ?? MailableLog::class;
-        $mailable = new $mailable();
+        $mailableClass = $this->config('mailable') ?? MailableLog::class;
+        /** @var \Illuminate\Contracts\Mail\Mailable $mailable */
+        $mailable = new $mailableClass();
 
-        if (! ($recipients = $this->config('to'))) {
-            throw new InvalidArgumentException('"To" address is required.');
+        if (! ($recipients = $this->buildRecipients())) {
+            throw new InvalidArgumentException('"To" address is required. Please check the `to` driver\'s logging config.');
         }
 
-        foreach ($recipients as $recipient) {
-            $mailable->to(
-                $recipient['address'],
-                $recipient['name']
-            );
-        }
+        $mailable->to($recipients);
 
-        if (! $this->defaultFromAddress()) {
+        if (! $this->defaultFromAddress() && ! isset($this->config('from')['address'])) {
             throw new InvalidArgumentException('"From" address is required. Please check the `from.address` driver\'s config and the `mail.from.address` config.');
         }
 
@@ -78,6 +74,37 @@ class MailLogger
         return $mailable;
     }
 
+    protected function buildRecipients(): array
+    {
+        if (! ($to = $this->config('to'))) {
+            return [];
+        }
+
+        $recipients = [];
+        foreach ((array)$to as $emailOrIndex => $nameOrEmail) {
+            if (is_array($nameOrEmail)) {
+                $email = $nameOrEmail['email'] ?? $nameOrEmail['address'] ?? null;
+                if ($email) {
+                    $recipients[] = [
+                        'email' => $email,
+                        'name' => $nameOrEmail['name'] ?? null,
+                    ];
+                }
+            } elseif (is_string($emailOrIndex)) {
+                $recipients[] = [
+                    'email' => $emailOrIndex,
+                    'name' => $nameOrEmail,
+                ];
+            } elseif (is_string($nameOrEmail)) {
+                $recipients[] = [
+                    'email' => $nameOrEmail,
+                    'name' => null,
+                ];
+            }
+        }
+
+        return $recipients;
+    }
 
     /**
      * Get the default from address.
