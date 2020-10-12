@@ -1,86 +1,123 @@
-Laravel Mail Logger
-===============
+# Laravel Mail Log Channel
 
-[![Latest Stable Version](http://img.shields.io/github/release/designmynight/laravel-log-mailer.svg)](https://packagist.org/packages/designmynight/laravel-log-mailer) [![Total Downloads](http://img.shields.io/packagist/dm/designmynight/laravel-log-mailer.svg)](https://packagist.org/packages/designmynight/laravel-log-mailer)
-[![StyleCI](https://github.styleci.io/repos/147424037/shield?branch=master)](https://github.styleci.io/repos/147424037)
+
+[![Latest Stable Version](https://img.shields.io/github/v/release/shaffe-fr/laravel-mail-log-channel.svg)](https://packagist.org/packages/shaffe/laravel-mail-log-channel) [![Total Downloads](https://img.shields.io/packagist/dt/shaffe/laravel-mail-log-channel.svg)](https://packagist.org/packages/shaffe/laravel-mail-log-channel)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A service provider to add support for logging via email using Laravels built-in mail provider
+A service provider to add support for logging via email using Laravels built-in mail provider.
+
+This package is a fork of [laravel-log-mailer](https://packagist.org/packages/designmynight/laravel-log-mailer) by Steve Porter.
 
 ![image](https://user-images.githubusercontent.com/12199424/45576336-a93c1300-b86e-11e8-9575-d1e4c5ed5dec.png)
 
+## Table of contents
 
-Table of contents
------------------
 * [Installation](#installation)
 * [Configuration](#configuration)
 
-Installation
-------------
+## Installation
 
-Installation using composer:
+You can install this package via composer using this commande:
 
 ```sh
-composer require designmynight/laravel-log-mailer
+composer require shaffe/laravel-mail-log-channel
 ```
 
-### Laravel version Compatibility
+### Laravel version compatibility
 
  Laravel  | Package |
 :---------|:--------|
- 5.6.x    | 1.0.x   |
+ 7.x      | ^2.0   |
+ 6.x      | ^2.0   |
+ 5.6.x    | ^1.0   |
 
-And add the service provider in `config/app.php`:
-
-```php
-DesignMyNight\Laravel\Logging\MailableLogServiceProvider::class,
-```
+The package will automatically register itself if you use Laravel.
 
 For usage with [Lumen](http://lumen.laravel.com), add the service provider in `bootstrap/app.php`.
 
 ```php
-$app->register(DesignMyNight\Laravel\Logging\MailableLogServiceProvider::class);
+$app->register(Shaffe\MailLogChannel\MailLogChannelServiceProvider::class);
 ```
 
-Configuration
-------------
+## Configuration
 
-Most configuration options can be automatically populated by environment variables or in config/mailablelog.php, to generate it run php artisan vendor:publish.
+To ensure all unhandled exceptions are mailed:
 
-To ensure all unhandled exceptions are mailed, set up a mail logging channel and add it to your logging stack in config/logging.php:
+1. create a `mail` logging channel in `config/logging.php`,
+2. add this `mail` channel to your current logging stack,
+3. add a `LOG_MAIL_ADDRESS` to your `.env` file to define the recipient.
+
+You can specify multiple channels and individually change the recipients, the subject and the email template.
 
 ```php
 'channels' => [
     'stack' => [
         'driver' => 'stack',
-        // Add mail to the stack:
+        // 2. Add mail to the stack:
         'channels' => ['single', 'mail'],
     ],
 
     // ...
 
-    // Create a mail logging channel:
+    // 1. Create a mail logging channel:
     'mail' => [
         'driver' => 'mail',
-        // Specify who to mail the log to
+        'level' => env('LOG_MAIL_LEVEL', 'notice'),
+
+        // Specify mail recipient
         'to' => [
             [
-                'address' => 'errors@designmynight.com',
-                'name' => 'Error'
-            ]
+                'address' => env('LOG_MAIL_ADDRESS'),
+                'name' => 'Error',
+            ],
         ],
-        // Optionally specify who the log mail was sent by
-        // This is overidable in config/mailablelog.php and
-        // falls back to your global from in config/mail.php
+
         'from' => [
-            'address' => 'errors@designmynight.com',
+            // Defaults to config('mail.from.address')
+            'address' => env('LOG_MAIL_ADDRESS'),
+            // Defaults to config('mail.from.name')
             'name' => 'Errors'
         ],
+
+        // Optionally overwrite the subject format pattern
+        // 'subject_format' => env('LOG_MAIL_SUBJECT_FORMAT', '[%datetime%] %level_name%: %message%'),
+
         // Optionally overwrite the mailable template
+        // Two variables are sent to the view: `string $content` and `array $records`
         // 'mailable' => NewLogMailable::class
     ],
 ],
 ```
 
-You can specify multiple channels and change the recipients and customise the email template per channel.
+### Recipients configuration format
 
+The following `to` config formats are supported:
+
+* single email address:
+
+    ```php
+    'to' => env('LOG_MAIL_ADDRESS', ''),
+    ```
+
+* array of email addresses:
+
+     ```php
+    'to' => explode(',', env('LOG_MAIL_ADDRESS', '')),
+    ```
+
+* associative array of email => name addresses:
+
+    ```php
+    'to' => [env('LOG_MAIL_ADDRESS', '') => 'Error'],`
+    ```
+
+* array of email and name:
+
+    ```php
+    'to' => [
+         [
+             'address' => env('LOG_MAIL_ADDRESS', ''),
+             'name' => 'Error',
+         ],
+     ],
+    ```
