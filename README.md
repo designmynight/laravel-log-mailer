@@ -29,6 +29,9 @@ composer require designmynight/laravel-log-mailer
  Laravel  | Package |
 :---------|:--------|
  5.6.x    | 1.0.x   |
+ 12.x / 13.x | 3.x |
+
+Package 3.x requires PHP ^8.3.
 
 And add the service provider in `config/app.php`:
 
@@ -83,4 +86,3 @@ To ensure all unhandled exceptions are mailed, set up a mail logging channel and
 ```
 
 You can specify multiple channels and change the recipients and customise the email template per channel.
-

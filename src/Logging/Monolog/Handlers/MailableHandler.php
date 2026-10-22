@@ -2,24 +2,31 @@
 
 namespace DesignMyNight\Laravel\Logging\Monolog\Handlers;
 
+use Illuminate\Contracts\Mail\Mailer;
 use Illuminate\Mail\Mailable;
+use Monolog\Level;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\MailHandler;
-use Monolog\Logger;
 
 class MailableHandler extends MailHandler
 {
+    protected Mailer $mailer;
+
+    protected LineFormatter $subjectFormatter;
+
+    protected Mailable $mailable;
+
     /**
      * Create the mailable handler.
      *
      * @param Mailable      $mailable
      * @param LineFormatter $subjectFormatter
-     * @param int     $level  The minimum logging level at which this handler will be triggered
-     * @param bool $bubble Whether the messages that are handled can bubble up the stack or not
+     * @param int|string|Level $level  The minimum logging level at which this handler will be triggered
+     * @param bool             $bubble Whether the messages that are handled can bubble up the stack or not
      *
      * @return void
      */
-    public function __construct(Mailable $mailable, LineFormatter $subjectFormatter, $level = Logger::DEBUG, $bubble = true)
+    public function __construct(Mailable $mailable, LineFormatter $subjectFormatter, int|string|Level $level = Level::Debug, bool $bubble = true)
     {
         parent::__construct($level, $bubble);
         $this->mailer = app()->make('mailer');
@@ -30,11 +37,11 @@ class MailableHandler extends MailHandler
     /**
      * Set the subject.
      *
-     * @param array $records
+     * @param array<\Monolog\LogRecord> $records
      *
      * @return void
      */
-    protected function setSubject(array $records)
+    protected function setSubject(array $records): void
     {
         $this->mailable->subject($this->subjectFormatter->format($this->getHighestRecord($records)));
     }
@@ -42,7 +49,7 @@ class MailableHandler extends MailHandler
     /**
      * {@inheritdoc}
      */
-    protected function send($content, array $records)
+    protected function send(string $content, array $records): void
     {
         $this->mailable->with([
             'content' => $content,

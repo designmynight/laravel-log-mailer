@@ -8,9 +8,12 @@ use Illuminate\Contracts\Mail\Mailable;
 use Monolog\Formatter\HtmlFormatter;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Logger;
+use InvalidArgumentException;
 
 class MailableLogger
 {
+    protected array $config = [];
+
     /**
      * Create a custom Monolog instance.
      *
